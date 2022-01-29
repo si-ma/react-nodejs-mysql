@@ -1,6 +1,48 @@
 # react nodejs(express) mysql デモアプリ
 
-## 構築手順
+## doker-composeから起動
+
+```bash
+#image作成
+docker-compose build
+docker-compose up -d
+```
+
+frontend
+
+```bash
+#frontコンテナに入る
+docker exec -it front bash -p
+
+#node_moduleをinstallする
+npm install
+
+#起動
+npm start
+```
+
+backend
+
+```bash
+#backコンテナに入る
+docker exec -it back bash -p
+
+#node_moduleをinstallする
+npm install
+
+```
+
+mysql
+
+```bash
+#dockerコンテナに入る
+docker exec -it mysql bash -p
+mysql -uuser -p
+
+#サンプルデータを登録(mysql/app.sql)
+```
+
+## 構築手順(0から構築)
 
 コンテナ作成
 
