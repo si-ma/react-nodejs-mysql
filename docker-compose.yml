@@ -1,0 +1,45 @@
+version: '3'
+
+networks:
+  react_express_mysql:
+    driver: bridge
+
+services:
+  frontend:  # React用のコンテナ
+    build: .
+    container_name: front
+    tty: true
+    volumes:
+      - ./frontend:/frontend
+    working_dir: "/frontend"
+    ports:
+      - 3001:3000
+    networks:
+      - react_express_mysql
+  backend:  # Express用のコンテナ
+    build: .
+    container_name: back
+    tty: true
+    volumes:
+      - ./backend:/backend
+    working_dir: "/backend"
+    ports:
+      - 3002:3000
+    networks:
+      - react_express_mysql
+  docker_mysql: #mysql用のコンテナ
+   build:
+    context: .
+    dockerfile: ./mysql/Dockerfile
+   container_name: mysql
+   env_file: ./mysql/mysql.env
+   ports:
+     - '3306:3306'
+   volumes:
+     - ./mysql/conf:/etc/mysql/conf.d/:ro
+     - mysqldata:/var/lib/mysql
+   networks:
+     - react_express_mysql
+
+volumes:
+  mysqldata:
